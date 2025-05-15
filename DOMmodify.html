@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    ul {
+      list-style: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <ul>
+      <li>测试1</li>
+      <li>测试2</li>
+      <li>测试3</li>
+    </ul>
+  </div>
+  <div class="random">
+    <ul>
+      <li>测试4</li>
+      <li>测试5</li>
+      <li>测试6</li>
+    </ul>
+  </div>
+  <script>
+    const li = document.querySelector('ul li:first-child');
+    li.innerText = '测试11';
+    const randomArr = ['测试7', '测试8', '测试9','测试10'];  // 随机文本数组
+    
+    const ran=Math.floor(Math.random()*randomArr.length);  // 非重复随机数
+    const one=document.querySelector('.random ul li:first-child');  // 对象
+    one.innerText = randomArr[ran];  // 修改文本
+    randomArr.splice(ran, 1);  // 删除随机数文本元素
+
+    const ran2=Math.floor(Math.random()*randomArr.length);  // 非重复随机数
+    const two=document.querySelector('.random ul li:nth-child(2)');  // 对象
+    two.innerText = randomArr[ran2];  // 修改文本
+    randomArr.splice(ran2, 1);  // 删除随机数文本元素
+
+    const ran3=Math.floor(Math.random()*randomArr.length)  // 非重复随机数
+    const three=document.querySelector('.random ul li:nth-child(3)');  // 对象
+    three.innerText = randomArr[ran3];  // 修改文本
+    randomArr.splice(ran3, 1);  // 删除随机数文本元素
+  </script>
+</body>
+</html>
