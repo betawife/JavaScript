@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+<body>
+  <input type="text">
+  <input type="checkbox" checked>
+  <button type="button">Click me</button>
+  <script>
+    const input = document.querySelector('input[type="text"]');
+    console.log(input.value);
+    input.type = 'password';
+    const checkbox = document.querySelector('input[type="checkbox"]');
+    checkbox.checked = true;
+    
+    const button = document.querySelector('button');
+    button.disabled = true;
+    button.innerText = 'Disabled';
+  </script>
+</body>
+</html>
