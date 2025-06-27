@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box{
+      display: flex;
+      margin: 0 auto;
+      position:relative;
+      width: 300px;
+      height: 200px;
+      background-color: pink;
+      font-size: 20px;
+      justify-content: center;
+    }
+
+    .box  .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background-color: rgb(178, 174, 174);
+      color: white;
+      line-height: 18px;
+      font-size: 14px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <button class="close">关闭</button>
+  </div>
+  <script>
+    const close = document.querySelector('.close');
+    const box = document.querySelector('.box');
+    // 添加事件监听器
+    close.addEventListener('click', function() {
+      box.style.display = 'none';
+    })
+  </script>
+</body>
+</html>

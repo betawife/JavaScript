@@ -91,6 +91,7 @@
     const p =document.querySelector('.slider-footer p');
     p.innerHTML = sliderPhoto[random].title; //随机获取图片标题
 
+    document.querySelector('.slider-indicator .active').classList.remove('active')  //当前激活圆点remove
     const li = document.querySelector(`.slider-indicator li:nth-child(${random+1})`);
     li.classList.add('active'); //圆点激活
   </script>

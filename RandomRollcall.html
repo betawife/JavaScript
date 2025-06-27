@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .box {
+      display: flex;
+      margin: 0 auto;
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background-color: pink;
+      font-size: 20px;
+      justify-content: center;
+    }
+    .box .rollcall{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 90px;
+      color: white;
+      line-height: 24px;
+      font-size: 24px;
+      
+    }
+    .box .btns {
+      position: absolute;
+      bottom: 10px;
+      width: 180px;
+      height: 40px;
+      background-color: rgb(178, 174, 174);
+      color: white;
+      font-size: 16px;
+    }
+    .btns button {
+      width: 60px;
+      height: 40px;
+      margin:0 10px;
+      background-color: rgb(178, 174, 174);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .btns button .start {
+      cursor:pointer;
+    }
+    .btns button .stop {
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="rollcall">随机点名:</div>
+    <div class="btns">
+      <button class="start">开始点名</button>
+      <button class="stop">停止点名</button>
+    </div>
+  </div>
+
+  <script>
+    const arr =['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九'];
+    let id=0;
+    const start =document.querySelector('.start');
+    const rollcall =document.querySelector('.rollcall');
+    start.addEventListener('click', function() {
+      let index = 0;
+      const intervalId = setInterval(() => {
+        index = Math.floor(Math.random() * arr.length);
+        rollcall.textContent = `随机点名: ${arr[index]}`;
+      }, 100);
+      // id为函数局部变量，外部无法调用：保存到外部
+      id = intervalId;
+    })
+
+    const stop =document.querySelector('.stop');
+    stop.addEventListener('click', function() {
+      if (id) {
+        clearInterval(id); // 关闭定时器
+        id = 0; // 清除id
+      }
+    })
+  </script>
+</body>
+</html>
