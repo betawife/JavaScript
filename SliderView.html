@@ -11,9 +11,10 @@
       box-sizing: border-box;
     }
     .slider {
-      width: 100px;
-      height: 100px;
+      width: 400px;
+      height: 300px;
       position: relative;
+      margin: 0 auto;
       overflow: hidden;
     }
     .slider-wrapper {
@@ -28,6 +29,7 @@
       max-width: 100%;
       max-height: 100%;
     }
+
     .slider-footer {
       position: absolute;
       bottom: 20px;
@@ -39,6 +41,10 @@
       font-size: 14px;
       color: #fff;
     }
+    .slider-footer .slider-nav {
+      display: flex;
+      align-items: center;
+    }
     .slider-indicator {
       list-style-type: none;
       display: flex;
@@ -46,14 +52,28 @@
       margin-top: 10px;
     }
     .slider-indicator li {
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
       background-color: #fff;
       border-radius: 50%;
       margin-right: 5px;
     }
     .slider-indicator li.active {
       background-color: #007bff; /* 激活状态的颜色 */
+    }
+    .slider-indicator li:first-child {
+      margin-left: 5px; 
+    }
+    .slider-control {
+      width: 20px;
+      height: 20px;
+      background-color: #007bff; /* 前后按钮的颜色 */
+      font-size: 16px;
+      line-height: 20px;
+      justify-content: center;
+      color: #fff;
+      cursor:pointer;
+      margin: 0 5px;
     }
   </style>
 </head>
@@ -64,16 +84,23 @@
     </div>
     <div class="slider-footer">
       <p>轮播测试</p>
-      <ul class="slider-indicator">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>  
-      </ul>
+      <div class="slider-nav">
+        <div class="slider-control">p</div>
+        <ul class="slider-indicator">
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>  
+        </ul>
+        <div class="slider-control">n</div>
+      </div>
     </div>
   </div>
+
+
+
   <script>
     const sliderPhoto = [ {url:'./images/OIP-C1.jpg',title:'图片1改'},   //对象数组，存放轮播图片
                           {url:'./images/OIP-C2.jpg',title:'图片2改'}, 
@@ -83,17 +110,39 @@
                           {url:'./images/OIP-C6.jpg',title:'图片6改'}
                         ];
 
-    const random =parseInt(Math.random()*sliderPhoto.length);
-    const sliderImg = document.querySelector('.slider-wrapper img');
-    sliderImg.src = sliderPhoto[random].url; //随机获取图片
-    sliderImg.alt = sliderPhoto[random].title; //随机获取图片标题
+    const pre = document.querySelector('.slider-control:first-child'); 
+    const next = document.querySelector('.slider-control:last-child');
+    const img = document.querySelector('.slider-wrapper img');
+    
+    let currentIndex = 0;
 
-    const p =document.querySelector('.slider-footer p');
-    p.innerHTML = sliderPhoto[random].title; //随机获取图片标题
-
-    document.querySelector('.slider-indicator .active').classList.remove('active')  //当前激活圆点remove
-    const li = document.querySelector(`.slider-indicator li:nth-child(${random+1})`);
-    li.classList.add('active'); //圆点激活
+    function updateslider(currentIndex) {
+      img.src = sliderPhoto[currentIndex].url; 
+      img.alt = sliderPhoto[currentIndex].title; 
+      const footerText = document.querySelector('.slider-footer p');
+      footerText.textContent = sliderPhoto[currentIndex].title;
+      const activeIndicator = document.querySelector('.slider-indicator li.active');//获取当前激活li
+      activeIndicator.classList.remove('active'); 
+      const currentindicator = document.querySelector(`.slider-indicator li:nth-child(${currentIndex + 1})`); // 获取当前li
+      currentindicator.classList.add('active');
+    }
+    pre.addEventListener('click', function() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      } else {
+        currentIndex = sliderPhoto.length - 1; // 如果当前是第一张，则跳转到最后一张
+      }
+      updateslider(currentIndex);
+    });
+    next.addEventListener('click', function() {
+      if (currentIndex < sliderPhoto.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // 如果当前是最后一张，则跳转到第一张
+      }
+      updateslider(currentIndex);
+    });
+    
   </script>
 </body>
 </html>
