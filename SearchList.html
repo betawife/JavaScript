@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .wrapper{
+      width: 400px;
+      height: 300px;
+      display: flex;
+      flex-direction: column;     /*主轴y*/
+      align-items: center;   /*子选择器侧轴x居中*/
+      margin: 0 auto;
+      background-color: #f0f0f0;
+    }
+    .wrapper .search-box {
+      width: 400px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 0 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .wrapper .search-box input {
+      width: 100%;
+      height: 40px;
+      border: none;
+      outline: none;
+      padding: 0 10px;
+      font-size: 16px;
+    }
+    .wrapper .search-box button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 0 15px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .wrapper .search-List {
+      display: none;
+      width: 80px;
+      height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="search-box">
+      <input type="text" placeholder="Search...">
+      <button>Search</button>
+    </div>
+    <div class="search-List">
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+        <li>Item 5</li>
+        <li>Item 6</li>
+        <li>Item 7</li>
+        <li>Item 8</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const input =document.querySelector('.search-box input');
+    const list =document.querySelector('.search-List');
+    input.addEventListener('focus',function(){
+      list.style.display = 'block';
+    });
+    input.addEventListener('blur',function(){
+      list.style.display = 'none';
+    });
+    input.addEventListener('input',function(){
+      const value = input.value.toLowerCase();
+      const items = list.querySelectorAll('li');
+      items.forEach(item => {
+        if (item.textContent.toLowerCase().includes(value)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+    const button = document.querySelector('.search-box button');
+    button.addEventListener('click', function() {
+      const ul = list.querySelector('ul');
+      const value = input.value.trim();
+      if (value) {
+        const li = document.createElement('li');
+        li.textContent = value;
+        ul.appendChild(li);
+        input.value = '';
+        list.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
