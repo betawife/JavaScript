@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分区展示网页</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px 0;
+        }
+        
+        /* 版心样式 */
+        .wrapper {
+            width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* 表格分区容器 */
+        .table {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* 表格分区项 */
+        .table-item {
+            flex: 1;
+            min-width: 200px;
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .table-item:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        .table-item.active {
+            background-color: #2c3e50;
+        }
+        
+        /* 内容区域 */
+        .content {
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            min-height: 300px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        /* 内容标题 */
+        .content h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        /* 内容段落 */
+        .content p {
+            margin-bottom: 15px;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>分区内容展示网页</h1>
+        
+        <!-- 表格分区 -->
+        <div class="table">
+            <div class="table-item active" data-target="content1">分区一</div>
+            <div class="table-item" data-target="content2">分区二</div>
+            <div class="table-item" data-target="content3">分区三</div>
+            <div class="table-item" data-target="content4">分区四</div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div id="content1" class="content active">
+            <h2>分区一内容</h2>
+            <p>这是第一个分区的内容展示区域。您可以在这里放置任何HTML内容，包括文本、图片、表格等。</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+        </div>
+        
+        <div id="content2" class="content">
+            <h2>分区二内容</h2>
+            <p>这是第二个分区的内容展示区域。这个区域的内容会在用户点击对应分区时显示。</p>
+            <ul>
+                <li>列表项一</li>
+                <li>列表项二</li>
+                <li>列表项三</li>
+            </ul>
+        </div>
+        
+        <div id="content3" class="content">
+            <h2>分区三内容</h2>
+            <p>第三个分区可以展示不同的内容类型，比如图片：</p>
+            <img src="https://via.placeholder.com/600x300" alt="示例图片" style="max-width: 100%; height: auto; border-radius: 5px;">
+        </div>
+        
+        <div id="content4" class="content">
+            <h2>分区四内容</h2>
+            <p>最后一个分区可以用来展示表格数据：</p>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">数量</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">价格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">产品A</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">$20</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">产品B</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">5</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">$15</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // 切换内容显示
+        const items =document.querySelectorAll('.table-item');
+        const contents =document.querySelectorAll('.content');
+        items.forEach(item => {
+            item.addEventListener('click', function() {
+                // 移除所有active类
+                items.forEach(i => i.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // 添加active类到当前点击的项
+                this.classList.add('active');  //this指向当前调用func的item;     item.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
