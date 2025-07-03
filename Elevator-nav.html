@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>带电梯导航的网页</title>
+    <style>
+        /* 重置样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        /* 版心样式 */
+        .wrapper {
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        /* 头部样式 */
+        header {
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        /* 主题板块样式 */
+        .displayareas {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        
+        .displayareas h2 {
+            color: #2c3e50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .displayareas p {
+            margin-bottom: 15px;
+        }
+        
+        /* 电梯导航样式 */
+        .elevator-nav {
+            position: fixed;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 10px;
+            z-index: 100;
+        }
+        
+        .elevator-nav ul {
+            list-style: none;
+        }
+        
+        .elevator-nav li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        .elevator-nav a {
+            display: block;
+            padding: 8px 12px;
+            color: #7f8c8d;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        .elevator-nav a:hover {
+            color: #3498db;
+            background-color: #f0f0f0;
+        }
+        
+        .elevator-nav a.active {
+            color: #fff;
+            background-color: #3498db;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>网站标题</h1>
+        </header>
+        
+        <!-- 电梯导航 -->
+        <div class="elevator-nav">
+            <ul>
+                <li><a href="#section1" class="active">板块一</a></li>
+                <li><a href="#section2">板块二</a></li>
+                <li><a href="#section3">板块三</a></li>
+                <li><a href="#section4">板块四</a></li>
+                <li><a href="#section5">板块五</a></li>
+            </ul>
+        </div>
+        
+        <!-- 主题板块 -->
+        <div id="section1" class="displayareas">
+            <h2>板块一标题</h2>
+            <p>这里是板块一的内容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+            <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+        </div>
+        
+        <div id="section2" class="displayareas">
+            <h2>板块二标题</h2>
+            <p>这里是板块二的内容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+            <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+        </div>
+        
+        <div id="section3" class="displayareas">
+            <h2>板块三标题</h2>
+            <p>这里是板块三的内容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+            <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+        </div>
+        
+        <div id="section4" class="displayareas">
+            <h2>板块四标题</h2>
+            <p>这里是板块四的内容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+            <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+        </div>
+        
+        <div id="section5" class="displayareas">
+            <h2>板块五标题</h2>
+            <p>这里是板块五的内容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+            <p>Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+            <p>Suspendisse dictum feugiat nisl ut dapibus. Mauris iaculis porttitor posuere. Praesent id metus massa, ut blandit odio.</p>
+        </div>
+        
+        <footer>
+            <p>© 2023 网站名称. 保留所有权利.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 电梯导航功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.elevator-nav a');
+            const sections = document.querySelectorAll('.displayareas');
+            
+            // 滚动时高亮当前板块对应的导航项
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 300)) {
+                        current = section.getAttribute('id');
+                    }
+                    else if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight) {
+                        current = sections[sections.length-1].getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // 平滑滚动到对应板块
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
