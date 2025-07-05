@@ -178,17 +178,17 @@
             
             // 滚动时高亮当前板块对应的导航项
             window.addEventListener('scroll', function() {
-                let current = '';
+                let current = '';  // 当前激活的板块ID
                 
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
                     const sectionHeight = section.clientHeight;
                     
-                    if (pageYOffset >= (sectionTop - 300)) {
+                    if (pageYOffset >= (sectionTop - 300)) {  //该板块section滚动到距离视口顶部300px时，认为该板块active
                         current = section.getAttribute('id');
                     }
                     else if (window.pageYOffset + window.innerHeight >= document.body.offsetHeight) {
-                        current = sections[sections.length-1].getAttribute('id');
+                        current = sections[sections.length-1].getAttribute('id');  //当滚动到页面底部时，最后一个板块被认为是active
                     }
                 });
                 
@@ -203,12 +203,12 @@
             // 平滑滚动到对应板块
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
+                    e.preventDefault();  //阻止a标签的默认行为,跳转
+                    const targetId = e.target.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
                     
                     window.scrollTo({
-                        top: targetSection.offsetTop - 100,
+                        top: targetSection.offsetTop - 100,  // 滚动到距离板块顶部100px的位置
                         behavior: 'smooth'
                     });
                 });

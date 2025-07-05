@@ -94,12 +94,12 @@
     <div class="navbar">
         <div class="wrapper">
             <ul class="nav-menu">
-                <li class="nav-item active" id="content1">首页</li>
-                <li class="nav-item" id="content2">产品中心</li>
-                <li class="nav-item" id="content3">解决方案</li>
-                <li class="nav-item" id="content4">客户案例</li>
-                <li class="nav-item" id="content5">关于我们</li>
-                <li class="nav-item" id="content6">联系我们</li>
+                <li class="nav-item active" data-section="content1">首页</li>
+                <li class="nav-item" data-section="content2">产品中心</li>
+                <li class="nav-item" data-section="content3">解决方案</li>
+                <li class="nav-item" data-section="content4">客户案例</li>
+                <li class="nav-item" data-section="content5">关于我们</li>
+                <li class="nav-item" data-section="content6">联系我们</li>
                 <!-- 指示线 -->
                 <div class="indicator-line"></div>
             </ul>
@@ -155,7 +155,7 @@
                     indicatorLine.style.width = `${itemWidth}px`;
 
                     // 更新内容区域
-                    const activeContentId = activeItem.id;
+                    const activeContentId = activeItem.getAttribute('data-section');
                     document.querySelectorAll('.content').forEach(content => {
                       if(content.id === activeContentId) {
                         content.style.display = 'block'; // 显示当前内容  
