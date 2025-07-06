@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人信息管理系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>个人信息管理系统</h1>
+    
+    <div class="form-container">
+        <h2>添加新记录</h2>
+        <form id="personForm" autocomplete="off">
+            <div class="form-group">
+                <label for="name">姓名:</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">年龄:</label>
+                <input type="number" id="age" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="company">就业单位:</label>
+                <input type="text" id="company" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">地点:</label>
+                <input type="text" id="location" required>
+            </div>
+            
+            <button type="submit">添加记录</button>
+        </form>
+    </div>
+    
+    <h2>个人信息列表</h2>
+    <table id="personTable">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>就业单位</th>
+                <th>地点</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- 数据将通过JavaScript动态添加 -->
+        </tbody>
+    </table>
+
+    <script>
+        // 存储所有人员数据的对象数组
+        let peopleData = [];
+        
+        // 获取DOM元素
+        const form = document.getElementById('personForm');
+        const tableBody = document.getElementById('tableBody');
+        
+        // 表单提交事件
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const company = document.getElementById('company').value;
+            const location = document.getElementById('location').value;
+            
+            // 创建新的人员对象
+            const newPerson = {
+                name: name,
+                age: age,
+                company: company,
+                location: location,
+                id: Date.now() // 使用时间戳作为唯一ID
+            };
+            
+            // 添加到数组
+            peopleData.push(newPerson);
+            
+            // 重新渲染表格
+            renderTable();
+            
+            // 重置表单
+            form.reset();
+        });
+        
+        // 删除人员函数
+        function deletePerson(id) {
+            // 过滤掉要删除的人员
+            peopleData = peopleData.filter(person => person.id !== id);//filter()方法true保留
+            
+            // 重新渲染表格
+            renderTable();
+        }
+        
+        // 渲染表格函数
+        function renderTable() {
+            // 清空表格
+            tableBody.innerHTML = '';
+            
+            // 如果没有数据，显示空状态
+            if (peopleData.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="5" style="text-align: center;">暂无数据</td>`;
+                tableBody.appendChild(row);
+                return;
+            }
+            
+            // 遍历数组，添加每一行数据
+            peopleData.forEach(person => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${person.name}</td>
+                    <td>${person.age}</td>
+                    <td>${person.company}</td>
+                    <td>${person.location}</td>
+                    <td><button class="delete-btn" onclick="deletePerson(${person.id})">删除</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // 初始渲染
+        renderTable();
+    </script>
+</body>
+</html>
