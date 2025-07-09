@@ -131,6 +131,19 @@
         const form = document.getElementById('personForm');
         const tableBody = document.getElementById('tableBody');
         
+        // 从localStorage加载数据
+        function loadDataFromStorage() {
+            const storedData = localStorage.getItem('peopleData');
+            if (storedData) {
+                peopleData = JSON.parse(storedData);
+            }
+        }
+        
+        // 保存数据到localStorage
+        function saveDataToStorage() {
+            localStorage.setItem('peopleData', JSON.stringify(peopleData));
+        }
+        
         // 表单提交事件
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -153,6 +166,9 @@
             // 添加到数组
             peopleData.push(newPerson);
             
+            // 保存到localStorage
+            saveDataToStorage();
+            
             // 重新渲染表格
             renderTable();
             
@@ -164,6 +180,9 @@
         function deletePerson(id) {
             // 过滤掉要删除的人员
             peopleData = peopleData.filter(person => person.id !== id);//filter()方法true保留
+            
+            // 保存到localStorage
+            saveDataToStorage();
             
             // 重新渲染表格
             renderTable();
@@ -198,8 +217,14 @@
             });
         }
         
-        // 初始渲染
-        renderTable();
+        // 页面加载时初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 从localStorage加载数据
+            loadDataFromStorage();
+            
+            // 初始渲染
+            renderTable();
+        });
     </script>
 </body>
 </html>
