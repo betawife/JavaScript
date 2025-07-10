@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .success-message {
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>用户注册</h1>
+        <form id="registrationForm" autocomplete="off">
+            <div class="form-group">
+                <label for="username">用户名*</label>
+                <input type="text" id="username" name="username" required>
+                <div id="usernameError" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">电子邮箱*</label>
+                <input type="email" id="email" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">密码*</label>
+                <input type="password" id="password" name="password" required>
+                <div id="passwordError" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">确认密码*</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <div id="confirmPasswordError" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">手机号码</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <button type="submit">注册</button>
+        </form>
+        
+        <div id="successMessage" class="success-message"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const successMessage = document.getElementById('successMessage');
+            
+            // 从localStorage加载用户数据
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 清除之前的错误消息
+                clearErrors();
+                
+                // 获取表单数据
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const phone = document.getElementById('phone').value.trim();
+                
+                // 验证表单数据
+                let isValid = true;
+                
+                // 检查用户名、邮箱、密码等字段
+                if ( validateUsername(username) === false) {
+                    showError('usernameError', '用户名须为字符、数字或下划线组合');
+                    isValid = false;
+                }
+                
+                if (!validateEmail(email)) {
+                    showError('emailError', '请输入有效的电子邮箱');
+                    isValid = false;
+                }
+                
+                if (password.length < 6) {
+                    showError('passwordError', '密码至少需要6个字符');
+                    isValid = false;
+                }
+                
+                if (password !== confirmPassword) {
+                    showError('confirmPasswordError', '两次输入的密码不一致');
+                    isValid = false;
+                }
+                
+                if (phone && !validatePhone(phone)) {
+                    showError('phoneError', '请输入有效的手机号码');
+                    isValid = false;
+                }
+                
+                // 检查用户名或邮箱是否已存在
+                if (isUsernameExists(username)) {
+                    showError('usernameError', '该用户名已被注册');
+                    isValid = false;
+                }
+                
+                if (isEmailExists(email)) {
+                    showError('emailError', '该邮箱已被注册');
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // 创建用户对象
+                    const user = {
+                        id: Date.now(), // 使用时间戳作为唯一ID
+                        username: username,
+                        email: email,
+                        password: password, // 注意：实际应用中应该加密存储密码
+                        phone: phone,
+                        registrationDate: new Date().toISOString()
+                    };
+                    
+                    // 添加到用户数组
+                    users.push(user);
+                    
+                    // 保存到localStorage
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    // 显示成功消息
+                    successMessage.textContent = `注册成功！欢迎 ${username}`;
+                    
+                    // 重置表单
+                    form.reset();
+                    
+                    // 3秒后清除成功消息
+                    setTimeout(() => {
+                        successMessage.textContent = '';
+                    }, 3000);
+                }
+            });
+            
+            // 验证用户名格式
+            function validateUsername(username) {
+                const re = /^[a-zA-Z0-9_]+$/; 
+                return re.test(username);
+            }
+            
+            // 验证电子邮箱格式
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+                return re.test(email);
+            }
+            
+            // 验证手机号码格式
+            function validatePhone(phone) {
+                const re = /^1[3-9]\d{9}$/;
+                return re.test(phone);
+            }
+            
+            // 检查用户名是否存在
+            function isUsernameExists(username) {
+                return users.some(user => user.username.toLowerCase() === username.toLowerCase()); //.some()遍历检查数组中是否有满足条件的元素
+            }
+            
+            // 检查邮箱是否存在
+            function isEmailExists(email) {
+                return users.some(user => user.email.toLowerCase() === email.toLowerCase());
+            }
+            
+            // 显示错误消息
+            function showError(errorId, message) {
+                const element = document.getElementById(errorId);
+                if (element) {
+                    element.textContent = message;
+                }
+            }
+            
+            // 清除所有错误消息
+            function clearErrors() {
+                const errorElements = document.querySelectorAll('.error');
+                errorElements.forEach(element => {
+                    element.textContent = '';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
