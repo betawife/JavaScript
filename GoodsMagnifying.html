@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .wrapper{
+      display: flex;
+      position: relative;
+      width: 1240px;
+      margin: 0 auto;
+      padding: 20px;
+      align-items: center;
+    }
+
+    .goods-list {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-right: 20px;
+    }
+
+    .goods-list  li {
+      width: 40px;
+      cursor:pointer;
+      list-style: none;
+      margin-bottom: 10px;
+    }
+
+    .goods-img {
+      position: relative;
+      width: 270px;
+      height: 230px;
+      margin:20px 0;
+      border-radius: 8px;
+      overflow: hidden;
+
+    }
+
+    .magnifying-glass {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 100px;
+      border: 2px solid #000;
+      background-color: black;
+      opacity: 0.2;
+      pointer-events: none; /* 防止放大镜阻挡鼠标事件 */
+      transform: translate(-50%, -50%); /* 使放大镜中心对准鼠标位置 */
+      z-index: 10;
+    }
+    
+    .goods-magnifying {
+      display:none;
+      width: 270px;
+      height: 230px;
+      margin:20px 10px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+      <ul class="goods-list">
+        <li><img src="./images/OIP-C1.jpg" alt="商品1" width="100%"></li>
+        <li><img src="./images/OIP-C2.jpg" alt="商品2" width="100%"></li>
+        <li><img src="./images/OIP-C3.jpg" alt="商品3" width="100%"></li>
+        <li><img src="./images/OIP-C4.jpg" alt="商品4" width="100%"></li>
+        <li><img src="./images/OIP-C5.jpg" alt="商品5" width="100%"></li>
+        <li><img src="./images/OIP-C6.jpg" alt="商品6"  width="100%"></li>
+      </ul>
+
+    <div class="goods-img">
+      <img src="" alt="">
+      <div class="magnifying-glass"></div>
+    </div>
+
+    <div class="goods-magnifying">
+      <img src="" alt="">
+    </div>
+
+  </div>
+
+  <script>
+    const goodsListImgs = document.querySelectorAll('.goods-list img');
+    const goodsImg = document.querySelector('.goods-img');
+    const goodsImgImg = document.querySelector('.goods-img img');
+    const goodsMagnifying = document.querySelector('.goods-magnifying');
+
+    goodsListImgs.forEach(img => {
+      img.addEventListener('click', function(e) {
+        goodsImgImg.src = e.target.src;
+        goodsImgImg.alt = e.target.alt;
+      });
+    });
+
+    goodsImg.addEventListener('mouseover', function() {           //mouseover事件与mouseenter事件的区别：mouseover会在鼠标进入元素或其子元素时触发，而mouseenter只在鼠标进入元素本身时触发。
+      goodsMagnifying.style.display = 'block';
+      goodsMagnifying.querySelector('img').src = goodsImgImg.src;
+      goodsMagnifying.querySelector('img').alt = goodsImgImg.alt;
+    });
+    goodsImg.addEventListener('mouseout', function() {
+      goodsMagnifying.style.display = 'none';
+      document.querySelector('.magnifying-glass').style.display = 'none';
+    });
+
+    goodsImg.addEventListener('mousemove', function(e) {
+      let x = e.pageX - goodsImg.getBoundingClientRect().left;
+      let y = e.pageY - goodsImg.getBoundingClientRect().top -document.documentElement.scrollTop;
+      const magnifyingGlass = document.querySelector('.magnifying-glass');
+
+      if(x>=0 && x<=270 && y>=0 && y<=230 ) {
+        magnifyingGlass.style.display = 'block';
+        magnifyingGlass.style.left = x +'px'; 
+        magnifyingGlass.style.top = y + 'px'; 
+      }
+    });
+
+  </script>
+</body>
+</html>
