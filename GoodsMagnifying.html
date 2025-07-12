@@ -48,7 +48,12 @@
       margin:20px 0;
       border-radius: 8px;
       overflow: hidden;
+    }
 
+    .goods-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .magnifying-glass {
@@ -59,10 +64,9 @@
       width: 100px;
       height: 100px;
       border: 2px solid #000;
-      background-color: black;
-      opacity: 0.2;
-      pointer-events: none; /* 防止放大镜阻挡鼠标事件 */
-      transform: translate(-50%, -50%); /* 使放大镜中心对准鼠标位置 */
+      background-color: rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
       z-index: 10;
     }
     
@@ -75,6 +79,11 @@
       overflow: hidden;
     }
 
+    .goods-magnifying img {
+      position: absolute;
+      width: 270px * 2.7; /* 放大倍数 */
+      height: 230px * 2.7;
+    }
   </style>
 </head>
 <body>
@@ -104,6 +113,11 @@
     const goodsImg = document.querySelector('.goods-img');
     const goodsImgImg = document.querySelector('.goods-img img');
     const goodsMagnifying = document.querySelector('.goods-magnifying');
+    const magnifyingImg = goodsMagnifying.querySelector('img');
+    const magnifyingGlass = document.querySelector('.magnifying-glass');
+
+    // 设置放大倍数
+    const zoomFactor = 2.7;
 
     goodsListImgs.forEach(img => {
       img.addEventListener('click', function(e) {
@@ -112,28 +126,55 @@
       });
     });
 
-    goodsImg.addEventListener('mouseover', function() {           //mouseover事件与mouseenter事件的区别：mouseover会在鼠标进入元素或其子元素时触发，而mouseenter只在鼠标进入元素本身时触发。
-      goodsMagnifying.style.display = 'block';
-      goodsMagnifying.querySelector('img').src = goodsImgImg.src;
-      goodsMagnifying.querySelector('img').alt = goodsImgImg.alt;
+    goodsImg.addEventListener('mouseover', function() {
+      if (goodsImgImg.src) {
+        goodsMagnifying.style.display = 'block';
+        magnifyingImg.src = goodsImgImg.src;
+        magnifyingImg.alt = goodsImgImg.alt;
+      }
     });
+    
     goodsImg.addEventListener('mouseout', function() {
       goodsMagnifying.style.display = 'none';
-      document.querySelector('.magnifying-glass').style.display = 'none';
+      magnifyingGlass.style.display = 'none';
     });
 
     goodsImg.addEventListener('mousemove', function(e) {
-      let x = e.pageX - goodsImg.getBoundingClientRect().left;
-      let y = e.pageY - goodsImg.getBoundingClientRect().top -document.documentElement.scrollTop;
-      const magnifyingGlass = document.querySelector('.magnifying-glass');
-
-      if(x>=0 && x<=270 && y>=0 && y<=230 ) {
-        magnifyingGlass.style.display = 'block';
-        magnifyingGlass.style.left = x +'px'; 
-        magnifyingGlass.style.top = y + 'px'; 
-      }
+      if (!goodsImgImg.src) return;
+      
+      const rect = goodsImg.getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+      
+      // 限制放大镜框在图片范围内
+      x = Math.max(50, Math.min(x, rect.width - 50));
+      y = Math.max(50, Math.min(y, rect.height - 50));
+      
+      // 显示放大镜框
+      magnifyingGlass.style.display = 'block';
+      magnifyingGlass.style.left = x + 'px';
+      magnifyingGlass.style.top = y + 'px';
+      
+      // 计算放大区域
+      const imgWidth = goodsImgImg.naturalWidth;
+      const imgHeight = goodsImgImg.naturalHeight;
+      
+      // 计算原始图片上的位置比例
+      const percentX = (x / rect.width) * 100;
+      const percentY = (y / rect.height) * 100;
+      
+      // 设置放大图片的位置
+      const moveX = (imgWidth * zoomFactor * percentX / 100) - (rect.width / 2);
+      const moveY = (imgHeight * zoomFactor * percentY / 100) - (rect.height / 2);
+      
+      magnifyingImg.style.transform = `translate(-${moveX}px, -${moveY}px)`;
     });
 
+    // 默认显示第一张图片
+    if (goodsListImgs.length > 0) {
+      goodsImgImg.src = goodsListImgs[0].src;
+      goodsImgImg.alt = goodsListImgs[0].alt;
+    }
   </script>
 </body>
 </html>
