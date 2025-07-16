@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车示例</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        
+        .goodsList {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .goodsList .item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .goodsList .item:last-child {
+            border-bottom: none;
+        }
+        
+        .goodsList .item .name {
+            flex: 2;
+            font-weight: bold;
+        }
+        
+        .goodsList .item .price {
+            flex: 1;
+            color: #e74c3c;
+        }
+        
+        .goodsList .item .quantity {
+            flex: 1;
+        }
+        
+        .goodsList .item .quantity input {
+            width: 50px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .goodsList .item .total {
+            flex: 1;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .SumCost {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .SumCost .label {
+            color: #333;
+        }
+        
+        .SumCost .value {
+            color: #e74c3c;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <h1>我的购物车</h1>
+    
+    <div class="goodsList" id="cart">
+        <!-- 商品列表将通过JavaScript动态生成 -->
+    </div>
+    
+    <div class="SumCost">
+        <span class="label">总计：</span>
+        <span class="value" id="totalCost">¥0.00</span>
+    </div>
+    
+    <script>
+        // 商品数据
+        const goodsData = [
+            { id: 1, name: '苹果 iPhone 15', price: 7999 },
+            { id: 2, name: '华为 Mate 60 Pro', price: 6999 },
+            { id: 3, name: '小米 14 Pro', price: 4999 },
+            { id: 4, name: 'OPPO Find X6', price: 4499 },
+            { id: 5, name: 'vivo X90 Pro', price: 5499 }
+        ];
+        
+        // 初始化购物车
+        let cart = {};
+        goodsData.forEach(good => {
+            cart[good.id] = {      //cart[]:对象动态属性名，value为对象
+                ...good,  //展开对象
+                quantity: 1
+            };
+        });
+        
+        // 渲染购物车
+        function renderCart() {
+            const cartElement = document.getElementById('cart');
+            const totalCostElement = document.getElementById('totalCost');
+            
+            // 清空现有内容
+            cartElement.innerHTML = '';
+            
+            let total = 0;
+            
+            // 添加每个商品项
+            Object.values(cart).forEach(item => {           //取cart对象的属性值，是对象
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                // 创建商品元素
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <div class="name">${item.name}</div>
+                    <div class="price">¥${item.price.toFixed(2)}</div>
+                    <div class="quantity">
+                        <button onclick="changeQuantity(${item.id}, -1)">-</button>
+                        <input type="number" value="${item.quantity}" min="1" 
+                               onchange="updateQuantity(${item.id}, this.value)">
+                        <button onclick="changeQuantity(${item.id}, 1)">+</button>
+                    </div>
+                    <div class="total">¥${itemTotal.toFixed(2)}</div>
+                `;                                         //quantity的修改方式：Button的onclick事件和input的onchange事件
+                // 将商品元素添加到购物车列表中
+                cartElement.appendChild(itemElement);
+            });
+            
+            // 更新总价
+            totalCostElement.textContent = `¥${total.toFixed(2)}`;
+        }
+        
+        // 改变商品数量
+        function changeQuantity(id, delta) {
+            const newQuantity = cart[id].quantity + delta;
+            if (newQuantity >= 1) {
+                cart[id].quantity = newQuantity;
+                renderCart();
+            }
+        }
+        
+        // 直接更新商品数量
+        function updateQuantity(id, value) {
+            const quantity = parseInt(value);
+            if (!isNaN(quantity) && quantity >= 1) {
+                cart[id].quantity = quantity;
+                renderCart();
+            } else {
+                renderCart(); // 重置为有效值
+            }
+        }
+        
+        // 初始渲染
+        renderCart();
+    </script>
+</body>
+</html>
